@@ -18,23 +18,10 @@ export class AppComponent {
 
   word:String;
   memes:MemesModule;
+
   Get_your_memes(word:String){
     this.loading=true;
-    if(word==null){
-      this.memes_.GetRandomMemems().subscribe(meme=>{
-        this.loading=false;
-        this.memes=meme;
-       },error=>{
-        this.loading=false;
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: error.message,
-          footer: '<a href="#">Why do I have this issue?</a>'
-        });
-       });
-    }
-    else{
+    if(word){
       this.memes_.GetMemes(word).subscribe(meme=>{
         this.memes=meme;
        },error=>{
@@ -46,6 +33,22 @@ export class AppComponent {
         });
        });
     }
+    else{
+      this.memes_.GetRandomMemems().subscribe(meme=>{
+        this.loading=false;
+        this.memes=null;
+        this.memes=meme;
+       },error=>{
+        this.loading=false;
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.message,
+          footer: '<a href="#">Why do I have this issue?</a>'
+        });
+       });
+    }
+
 
   }
     public openMemeModal(word:String){
